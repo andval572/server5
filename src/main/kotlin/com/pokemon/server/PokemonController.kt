@@ -79,16 +79,15 @@ class PokemonController(private val usuarioRepository: UsuarioRepository) {
     /*
     curl -X DELETE localhost:8084/pokemon/1/u2p1
      */
-    @DeleteMapping("pokemon/{id}/{token}")
-    fun requestDeletePokemonPorId(@PathVariable id: Long, @PathVariable token: String) : Any {
+    @DeleteMapping("pokemon/{token}/{id}")
+    fun requestDeletePokemonPorToken(@PathVariable token: String,@PathVariable id: Long) : Any {
         // TODO esta función requiere de un token válido para poder ejecutarse
-        // si el token no existe, no se borra ningún pokémon y dice "Usuario Inválido"
+        // si el token no existe, no se borra ningún pokémon
         usuarioRepository.findAll().forEach {
-            if (it.token == token) {
+
+            if (it.token == token)
                 return listaPokemon.borrarPokemonPorId(id)
             }
-        }
-        return "Usuario Inválido"
-
-    }
+                return "usuario invalido no puede borrar pokemon"
+            }
 }
